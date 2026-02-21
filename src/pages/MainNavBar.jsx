@@ -6,7 +6,7 @@ import Registration from './Registration';
 import AdminLogin from './AdminLogin';
 import ManagerLogin from './ManagerLogin';
 import CustomerLogin from './CustomerLogin';
-import './style.css';
+import "./Style.css"
 
 const MainNavBar = () => {
   return (
