@@ -15,7 +15,7 @@ const MainNavBar = () => {
       <div className="navbar-container">
         <div className="navbar-logo">
           <Link to="/" className="logo-link">
-             KL Event Management System -2500032304
+           KL Event Management System - 2500032304
           </Link>
         </div>
         <ul className="nav-menu">
