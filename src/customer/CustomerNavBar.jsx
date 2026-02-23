@@ -19,7 +19,7 @@ export default function CustomerNavBar() {
     <div className="customer-container">
       <nav className="customer-navbar">
         <div className="navbar-header">
-          <h1>Customer Dashboard</h1>
+          <h1>Customer  Dashboard</h1>
         </div>
         <ul className="navbar-links">
           <li><Link to="/customer/home" className="nav-link">Home</Link></li>
