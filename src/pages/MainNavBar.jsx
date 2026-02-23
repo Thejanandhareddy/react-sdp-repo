@@ -6,7 +6,7 @@ import Registration from './Registration';
 import AdminLogin from './AdminLogin';
 import ManagerLogin from './ManagerLogin';
 import CustomerLogin from './CustomerLogin';
-import "./Style.css";
+import './style.css';
 
 const MainNavBar = () => {
   return (
@@ -15,7 +15,7 @@ const MainNavBar = () => {
       <div className="navbar-container">
         <div className="navbar-logo">
           <Link to="/" className="logo-link">
-           KL Event Management System - 2500032304
+           K L Event Management System
           </Link>
         </div>
         <ul className="nav-menu">
