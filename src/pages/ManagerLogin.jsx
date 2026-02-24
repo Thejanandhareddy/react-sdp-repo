@@ -1,16 +1,14 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './Style.css';
 
-const Registration = () => {
+const ManagerLogin = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    fullName: '',
-    gender: '',
-    email: '',
-    password: '',
     username: '',
-    contactNo: '',
-    location: '',
+    password: '',
   });
+  const [error, setError] = useState('');
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -18,84 +16,59 @@ const Registration = () => {
       ...formData,
       [name]: value,
     });
+    setError('');
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
-    const existingRegistrations = JSON.parse(localStorage.getItem('customerRegistrations')) || [];
-    
-    const newRegistration = {
-      ...formData,
-      id: Math.floor(Math.random() * 900000) + 100000,
-      registeredAt: new Date().toLocaleString(),
-    };
-    
-    existingRegistrations.push(newRegistration);
-    
-    localStorage.setItem('customerRegistrations', JSON.stringify(existingRegistrations));
-    
-    console.log('Registration saved:', newRegistration);
-    alert('Registration submitted successfully and saved!');
-    
-    setFormData({
-      fullName: '',
-      gender: '',
-      email: '',
-      password: '',
-      username: '',
-      contactNo: '',
-      location: '',
-    });
+
+    // Get all managers from localStorage
+    const managers = JSON.parse(localStorage.getItem('managerRegistrations')) || [];
+
+    // Find manager with matching credentials
+    const manager = managers.find(
+      m => m.username === formData.username && m.password === formData.password
+    );
+
+    if (manager) {
+      // Set manager session
+      sessionStorage.setItem('isManager', 'true');
+      sessionStorage.setItem('managerUsername', manager.username);
+      sessionStorage.setItem('managerName', manager.managerName);
+      sessionStorage.setItem('managerCompany', manager.companyName);
+      console.log('Manager Login successful!');
+
+      // Reset form and redirect to manager dashboard
+      setFormData({
+        username: '',
+        password: '',
+      });
+
+      // Redirect to home page
+      window.location.href = '/';
+    } else {
+      setError('Invalid username or password');
+      console.log('Invalid credentials');
+    }
   };
 
   return (
-    <div className="registration-container">
-      <div className="registration-card">
-        <h1>Customer Registration</h1>
-        <form onSubmit={handleSubmit} className="registration-form">
-          <div className="form-group">
-            <label htmlFor="fullName">Full Name *</label>
-            <input
-              type="text"
-              id="fullName"
-              name="fullName"
-              value={formData.fullName}
-              onChange={handleChange}
-              required
-              placeholder="Enter your full name"
-            />
+    <div className="login-container">
+      <div className="login-card">
+        <h1>Manager Login</h1>
+        {error && (
+          <div style={{
+            color: '#dc3545',
+            marginBottom: '15px',
+            padding: '10px',
+            backgroundColor: '#f8d7da',
+            borderRadius: '4px',
+            border: '1px solid #f5c6cb'
+          }}>
+            {error}
           </div>
-
-          <div className="form-group">
-            <label htmlFor="gender">Gender *</label>
-            <select
-              id="gender"
-              name="gender"
-              value={formData.gender}
-              onChange={handleChange}
-              required
-            >
-              <option value="">Select Gender</option>
-              <option value="male">Male</option>
-              <option value="female">Female</option>
-              <option value="other">Other</option>
-            </select>
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="email">Email ID *</label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-              placeholder="Enter your email"
-            />
-          </div>
-
+        )}
+        <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label htmlFor="username">Username *</label>
             <input
@@ -122,37 +95,11 @@ const Registration = () => {
             />
           </div>
 
-          <div className="form-group">
-            <label htmlFor="contactNo">Contact No *</label>
-            <input
-              type="tel"
-              id="contactNo"
-              name="contactNo"
-              value={formData.contactNo}
-              onChange={handleChange}
-              required
-              placeholder="Enter your contact number"
-            />
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="location">Location *</label>
-            <input
-              type="text"
-              id="location"
-              name="location"
-              value={formData.location}
-              onChange={handleChange}
-              required
-              placeholder="Enter your location"
-            />
-          </div>
-
-          <button type="submit" className="submit-btn">Register</button>
+          <button type="submit" className="submit-btn">Login</button>
         </form>
       </div>
     </div>
   );
 };
 
-export default Registration;
+export default ManagerLogin;
