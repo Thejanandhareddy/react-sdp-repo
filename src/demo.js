@@ -1,2 +1,2 @@
 console.log("i am in demo")
-log("Hello git")
+console.log("Hello world")
